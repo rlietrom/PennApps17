@@ -16,14 +16,10 @@ phantom.create()
   // console.log('STATUS', status)
   if(status === 'success') {
     sitepage.evaluate(function(){
-      // var div = document.querySelectorAll('col-xs-12 col-lg-8 text-center')
-      var div = document.getElementsByClassName('lyrics');
-      if (div === null) {
-
-      } else {
-        var div2 = div.text();
-      }
-      return div2;
+      console.log('getting lyrics...');
+      var div = document.getElementsByClassName('lyrics')[0].outerText;
+      div = div.replace(/\[(.+?)\]/g, '');
+      return div;
     })
     .then((div) => {
       console.log('DIV', div)
