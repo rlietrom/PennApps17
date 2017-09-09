@@ -4,7 +4,8 @@
   "description": "A data visualization exploration made in PennApps 2017 Fall.",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "scraper": "node scraper.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/rlietrom/PennApps17#readme",
   "dependencies": {
-    "express": "^4.15.4"
+    "express": "^4.15.4",
+    "phantom": "^4.0.5"
   }
 }
