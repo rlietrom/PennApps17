@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/rlietrom/PennApps17#readme",
   "dependencies": {
+    "axios": "^0.16.2",
     "express": "^4.15.4",
-    "phantom": "^4.0.5"
+    "phantom": "^4.0.5",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
   }
 }
