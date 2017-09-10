@@ -7,7 +7,7 @@ var playlistSchema = mongoose.Schema({
 
 var statsSchema = mongoose.Schema({
   country: String,
-  states: Array,
+  stats: Object,
 })
 
 
