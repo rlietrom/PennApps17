@@ -20,6 +20,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "express": "^4.15.4",
+    "phantom": "^4.0.5",
+    "three.js": "^0.77.1",
     "express-handlebars": "^3.0.0",
     "phantom": "^4.0.5",
     "wordfrequenter": "0.0.4",
