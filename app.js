@@ -16,6 +16,10 @@ app.engine('hbs', handlebars({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+// app.get('/', function (req, res) {
+//   res.render('home')
+// })
+
 app.use('/', index);
 app.use('/', scraper);
 
@@ -37,6 +41,7 @@ app.listen(3000, function () {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
+    console.log('hmmmm')
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -48,6 +53,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  console.log('hmmm 2');
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
