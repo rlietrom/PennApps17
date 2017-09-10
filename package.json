@@ -19,6 +19,8 @@
   "homepage": "https://github.com/rlietrom/PennApps17#readme",
   "dependencies": {
     "express": "^4.15.4",
-    "phantom": "^4.0.5"
+    "express-handlebars": "^3.0.0",
+    "phantom": "^4.0.5",
+    "wordfrequenter": "0.0.4"
   }
 }

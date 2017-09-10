@@ -1,19 +1,23 @@
 var express = require('express');
 var path = require('path');
+var handlebars = require('express-handlebars');
 
 var index = require('./routes/index');
+var scraper = require('./scraper.js');
+var counter = require('./counter.js');
 
 var app = express();
+
+app.engine('hbs', handlebars({
+  extname:'.hbs'
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
-
 app.use('/', index);
+app.use('/', scraper);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
