@@ -1,4 +1,9 @@
 var fetch = require('isomorphic-fetch')
+var mongoose = require('mongoose')
+mongoose.connect(process.env.MONGODB_URI);
+
+var models = require('./models');
+var playlist = models.playlist
 
 
 var payload = process.env.SPOTIFY_CLIENT_ID + ":" + process.env.SPOTIFY_CLIENT_SECRET;
@@ -63,14 +68,13 @@ var playlists = {
 }
 
 var urls = []
-var token = "BQDl3vdVIrNh4mjRnTZEkYSTYWATbmKvuvJHorFELBGg3VVHEOipcu2huAUovMwf9XvE2_eERZImWMzHwuq9eA"
+var token = "BQBoWGo8vGLpbbzhRHc2prudKc_hsP797BuWCeQe0HyAaagr9WAAv8NI6X5CjarXVYJvHfZ1mUQzylCWvSME7w"
 
 for (var key in playlists) {
   urls.push('https://api.spotify.com/v1/users/spotifycharts/playlists/'+playlists[key]+'/tracks')
 }
 
 var promises = []
-var token;
 
 urls.forEach(url => {
   promises.push(fetch(url, {
@@ -89,7 +93,7 @@ urls.forEach(url => {
   }))
 })
 
-var tracks = {}
+
 
 var keys = Object.keys(playlists)
 
@@ -99,18 +103,102 @@ Promise
   //console.log(response)
   for (var i= 0; i < keys.length; i++) {
     var current = response[i].items
-    console.log(current)
-    tracks[keys[i]] = []
+    var tracks = []
     for (var j=0; j < current.length; j++) {
       var artists = []
       current[j].track.artists.forEach(artist => {
         artists.push(artist.name)
       })
-      tracks[keys[i]].push({name: current[j].track.name, id: current[j].track.id, artists: artists})
+      tracks.push({name: current[j].track.name, id: current[j].track.id, artists: artists})
     }
+    var newPlaylist = new Playlist({
+      country: keys[i],
+      tracks: tracks
+    })
+    newPlaylist.save((err) => {
+      if (err) {
+      console.log('save err')
+    }
+    })
   }
   return;
-}).then(()=> console.log(tracks))
+}).catch((err)=> {
+  console.log(err.message)
+})
+// }).then(()=> {
+//   var trackURLs = []
+//   var promises2 = []
+//   tracks.global.forEach((song) => {
+//     trackURLs.push('https://api.spotify.com/v1/audio-features/'+song.id)
+//   })
+//
+//
+//
+//   trackURLs.forEach(url => {
+//     promises2.push(fetch(url, {
+//       method: 'GET',
+//       headers: {
+//         "Content-Type": "application/x-www-form-urlencoded",
+//         "Authorization": "Bearer " + token
+//       }
+//     }).then(response => {
+//       return response.json()
+//     }).then(resp => {
+//       return resp;
+//     })
+//     .catch(err => {
+//       console.log(err.message)
+//     }))
+//   })
+//
+//   Promise
+//   .all(promises2)
+//   .then(resp => {
+//     for (var k=0; k< resp.length; k++) {
+//       tracks.global.forEach((song) => {
+//         song.audioFeatures = resp[k]
+//       })
+//     }
+//     return;
+//   })
+// }).then(()=> {
+//   var trackURLs = []
+//   var promises2 = []
+//   tracks.argentina.forEach((song) => {
+//     trackURLs.push('https://api.spotify.com/v1/audio-features/'+song.id)
+//   })
+//
+//
+//
+//   trackURLs.forEach(url => {
+//     promises2.push(fetch(url, {
+//       method: 'GET',
+//       headers: {
+//         "Content-Type": "application/x-www-form-urlencoded",
+//         "Authorization": "Bearer " + token
+//       }
+//     }).then(response => {
+//       return response.json()
+//     }).then(resp => {
+//       return resp;
+//     })
+//     .catch(err => {
+//       console.log(err.message)
+//     }))
+//   })
+//
+//   Promise
+//   .all(promises2)
+//   .then(resp => {
+//     for (var k=0; k< resp.length; k++) {
+//       tracks.argentina.forEach((song) => {
+//         song.audioFeatures = resp[k]
+//       })
+//     }
+//     return;
+//   }).then(()=> {
+//     console.log(tracks.argentina[2].audioFeatures)
+//   })
+// })
 
-
-module.exports = { tracks }
+module.exports = {playlists: playlists}
