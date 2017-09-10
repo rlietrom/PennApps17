@@ -1,9 +1,20 @@
 var express = require('express');
 var path = require('path');
+
 var globe = require('./globe')
+
+var handlebars = require('express-handlebars');
+
+
 var index = require('./routes/index');
+var scraper = require('./scraper.js');
+var counter = require('./counter.js');
 
 var app = express();
+
+app.engine('hbs', handlebars({
+  extname:'.hbs'
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -17,6 +28,7 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 // })
 
 app.use('/', index);
+app.use('/', scraper);
 
 // app.use('/', globe);
 
